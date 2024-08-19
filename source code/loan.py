@@ -3,10 +3,9 @@ import threading
 
 class Loan:
 
-    def __init__(self, principle, interest_rate, term):
+    def __init__(self, principle, interest_rate):
         self.principle = principle
         self.interest_rate = interest_rate
-        self.term = term
         self.loan_balance = principle
         # loan functionality activated
         self.running = True
@@ -22,7 +21,7 @@ class Loan:
 
     def calculate_interest(self):
         # balance *(1 + rate%)
-        self.loan_balance * self.interest / 100
+        return self.loan_balance * self.interest / 100
 
 
     def apply_interest(self):
