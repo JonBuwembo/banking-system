@@ -1,10 +1,15 @@
-class loan:
+import time
+import threading
 
-    def __init__(self, principle, interest, term):
+class Loan:
+
+    def __init__(self, principle, interest_rate, term):
         self.principle = principle
-        self.interest = interest
+        self.interest_rate = interest_rate
         self.term = term
-        self.balance = principle
+        self.loan_balance = principle
+        # loan functionality activated
+        self.running = True
     
     
     # calculate_interest():     separate function to calculate interest
@@ -15,28 +20,46 @@ class loan:
     # get_loan():               get my loan balance
 
 
-    def pass_interest_accrual():
-        # simulates the passing of five minutes, applying interest or increasing interest rate
-        pass
+    def calculate_interest(self):
+        # balance *(1 + rate%)
+        self.loan_balance * self.interest / 100
 
-    def stop_all_loans_interest_accrual(self):
-        # stops the interest accrual for all loans.
-        pass
 
-    def calculate_interest():
-        pass
-
-    def apply_interest():
-        pass
+    def apply_interest(self):
+        interest = self.calculate_interest()
+        self.loan_balance += interest # add interest
+        return f"Interest of {interest} has been applied. Current balance is now {self.balance}"
+        
 
     def start_interest_accrual(self):
-        pass
+        # threading
+        def accrue_interest():
+            while self.running:
+                time.sleep(300) # 5 minutes, every five minutes interest rate increases.
+                print(self.apply_interest()) 
+        
+        thread = threading.Thread(target=accrue_interest, daemon=True)
+        thread.start()
+
 
     def stop_interest_accrual(self):
-        pass
+        # stops the interest accrual for all loans.
+        self.running = False
 
-    def make_payment(self):
-        pass
+    def make_payment(self, amount):
+        # if the payment exceeds the loan balance ...
+        # if the payment does not cover all the loan balance ...
+        # if the payment is not a valid input, less than 0 ...
+
+        if self.loan_balance >= amount and amount > 0:
+            self.loan_balance -= amount
+            return f"payment of ${amount} sucessfully processed. There still remains ${self.loan_balance} in loans."
+        elif self.loan_balance < amount:
+            return "ERROR: You are repaying more than the outstanding loan balance."
+        else:
+            return "ERROR: Invalid Input" 
+        
 
     def get_loan_balance(self):
-        pass
+        return f"You owe ${self.loan_balance} in loans."
+        

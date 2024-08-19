@@ -1,3 +1,3 @@
 import bank
-import loan
+from loan import Loan
 
